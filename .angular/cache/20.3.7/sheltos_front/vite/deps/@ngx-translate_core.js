@@ -19,7 +19,7 @@ import {
   ɵɵdirectiveInject,
   ɵɵgetInheritedFactory,
   ɵɵinject
-} from "./chunk-XPPEXX3T.js";
+} from "./chunk-J4EMSBI6.js";
 import {
   concat,
   concatMap,
@@ -35,7 +35,7 @@ import {
 import "./chunk-HSWANC32.js";
 import {
   __spreadValues
-} from "./chunk-TXDUYLVM.js";
+} from "./chunk-TWWAJFRB.js";
 
 // node_modules/@ngx-translate/core/fesm2022/ngx-translate-core.mjs
 var TranslateLoader = class {

@@ -1,4 +1,4 @@
-import "./chunk-TXDUYLVM.js";
+import "./chunk-TWWAJFRB.js";
 
 // node_modules/@angular/localize/fesm2022/localize2.mjs
 var BLOCK_MARKER$1 = ":";
@@ -44,7 +44,7 @@ export {
 @angular/localize/fesm2022/localize2.mjs:
 @angular/localize/fesm2022/init.mjs:
   (**
-   * @license Angular v20.3.7
+   * @license Angular v20.3.9
    * (c) 2010-2025 Google LLC. https://angular.dev/
    * License: MIT
    *)

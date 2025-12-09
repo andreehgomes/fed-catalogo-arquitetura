@@ -11,14 +11,14 @@ import {
   ɵɵdefineComponent,
   ɵɵdefineInjector,
   ɵɵdefineNgModule
-} from "./chunk-XPPEXX3T.js";
+} from "./chunk-J4EMSBI6.js";
 import "./chunk-Y72XGDAT.js";
 import "./chunk-HSWANC32.js";
 import {
   __objRest,
   __spreadProps,
   __spreadValues
-} from "./chunk-TXDUYLVM.js";
+} from "./chunk-TWWAJFRB.js";
 
 // node_modules/chartist/dist/index.js
 var namespaces = {

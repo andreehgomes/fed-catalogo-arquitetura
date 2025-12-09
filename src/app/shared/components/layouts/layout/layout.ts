@@ -18,30 +18,8 @@ export class Layout {
 
   set() {
     var url = window.location.pathname;
-    if (url.includes("/theme/slider-filter-search")) {
-      this.data = layoutOption.layoutOne;
-    } else if (url.includes("/theme/corporate")) {
-      this.data = layoutOption.layoutTwo;
-    } else if (url.includes("/theme/enterprise")) {
-      this.data = layoutOption.layoutThree;
-    } else if (url.includes("/theme/classic")) {
-      this.data = layoutOption.layoutFour;
-    } else if (url.includes("/theme/image-content")) {
-      this.data = layoutOption.layoutFive;
-    } else if (url.includes("/theme/modern")) {
-      this.data = layoutOption.layoutSix;
-    } else if (url.includes("/theme/parallax-image")) {
-      this.data = layoutOption.layoutSeven;
-    } else if (url.includes("/theme/search-tab")) {
-      this.data = layoutOption.layoutEight;
-    } else if (url.includes("/theme/typed-image")) {
-      this.data = layoutOption.layoutNine;
-    } else if (url.includes("/theme/morden-video")) {
-      this.data = layoutOption.layoutTen;
-    } else if (url.includes("/theme/map-v-search")) {
-      this.data = layoutOption.layoutEleven;
-    } else if (url.includes("/theme/map-h-search")) {
-      this.data = layoutOption.layoutTwelve;
+    if (url === "/" || url === "") {
+      this.data = layoutOption.layoutModern;
     } else if (
       url.includes("/page/portfolio/center-slide") ||
       url.includes("/page/portfolio/parallax") ||

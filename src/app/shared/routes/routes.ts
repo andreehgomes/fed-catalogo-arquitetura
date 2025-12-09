@@ -2,7 +2,7 @@ import { Routes } from "@angular/router";
 
 export const content: Routes = [
   {
-    path: "theme",
+    path: "",
     loadChildren: () => import("../../components/home/home.routes"),
   },
   {

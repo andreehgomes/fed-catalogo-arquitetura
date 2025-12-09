@@ -1,0 +1,155 @@
+// Profile Avatar
+.user-avatar-profile {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #ff5c41 0%, #ff8c41 100%);
+  border: 3px solid #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  flex-shrink: 0;
+
+  .avatar-img-large {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .avatar-initials-large {
+    color: #fff;
+    font-weight: 600;
+    font-size: 28px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+}
+
+.user-email-display {
+  display: flex;
+  align-items: center;
+  color: #7f8c8d;
+  font-size: 14px;
+  margin-top: 8px;
+
+  app-feather-icons {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.user-bio {
+  padding-top: 16px;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+
+  p {
+    color: #555;
+    line-height: 1.6;
+    margin: 0;
+  }
+}
+
+// Form styling
+.form-label {
+  font-weight: 500;
+  color: #2c3e50;
+  margin-bottom: 8px;
+}
+
+.form-control,
+.form-select {
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  padding: 10px 16px;
+  transition: all 0.3s ease;
+
+  &:focus {
+    border-color: #ff5c41;
+    box-shadow: 0 0 0 0.2rem rgba(255, 92, 65, 0.15);
+  }
+
+  &.is-invalid {
+    border-color: #e74c3c;
+
+    &:focus {
+      box-shadow: 0 0 0 0.2rem rgba(231, 76, 60, 0.15);
+    }
+  }
+}
+
+textarea.form-control {
+  resize: vertical;
+  min-height: 100px;
+}
+
+// Button group
+.btn-group {
+  gap: 8px;
+}
+
+// Information list styling
+.information {
+  ul {
+    li {
+      display: flex;
+      align-items: flex-start;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      span {
+        min-width: 180px;
+        font-weight: 500;
+        color: #2c3e50;
+      }
+
+      p,
+      a {
+        flex: 1;
+        margin: 0;
+        color: #555;
+      }
+    }
+  }
+}
+
+// Loading state
+.spinner-border {
+  width: 3rem;
+  height: 3rem;
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .user-avatar-profile {
+    width: 60px;
+    height: 60px;
+
+    .avatar-initials-large {
+      font-size: 22px;
+    }
+  }
+
+  .btn-group {
+    flex-direction: column;
+    width: 100%;
+
+    button {
+      width: 100%;
+    }
+  }
+
+  .information ul li {
+    flex-direction: column;
+
+    span {
+      min-width: auto;
+      margin-bottom: 4px;
+    }
+  }
+}

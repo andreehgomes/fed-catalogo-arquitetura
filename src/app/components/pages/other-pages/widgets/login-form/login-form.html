@@ -1,4 +1,4 @@
-<form>
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
   <div class="form-group">
     <div class="input-group">
       <div class="input-group-prepend">
@@ -7,12 +7,16 @@
         </div>
       </div>
       <input
-        type="text"
+        type="email"
         class="form-control"
         placeholder="Enter Email"
-        required
+        formControlName="email"
+        [class.is-invalid]="getFieldError('email')"
       />
     </div>
+    @if (getFieldError('email')) {
+      <small class="text-danger">{{ getFieldError('email') }}</small>
+    }
   </div>
   <div class="form-group">
     <div class="input-group">
@@ -26,8 +30,8 @@
         id="pwd-input"
         class="form-control"
         placeholder="Password"
-        maxlength="8"
-        required
+        formControlName="password"
+        [class.is-invalid]="getFieldError('password')"
       />
       <div class="input-group-apend">
         <div class="input-group-text" (click)="showPassword()">
@@ -39,14 +43,23 @@
         </div>
       </div>
     </div>
-    <div class="important-note">
-      password should be a minimum of 8 characters and should contains letters
-      and numbers
-    </div>
+    @if (getFieldError('password')) {
+      <small class="text-danger">{{ getFieldError('password') }}</small>
+    }
+    @else {
+      <div class="important-note">
+        A senha deve ter no mínimo 6 caracteres
+      </div>
+    }
   </div>
   <div class="d-flex">
     <label class="d-block mb-0" for="chk-ani">
-      <input class="checkbox_animated color-2" id="chk-ani" type="checkbox" />
+      <input
+        class="checkbox_animated color-2"
+        id="chk-ani"
+        type="checkbox"
+        formControlName="rememberMe"
+      />
       <span>Remember me</span>
     </label>
     <a
@@ -59,8 +72,14 @@
     <button
       type="submit"
       class="btn btn-gradient btn-pill color-2 me-sm-3 me-2"
+      [disabled]="isLoading"
     >
-      Log in
+      @if (isLoading) {
+        <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+        Entrando...
+      } @else {
+        Log in
+      }
     </button>
     <a
       [routerLink]="['/page/other-pages/sign-up']"
@@ -74,46 +93,26 @@
   <div>
     <h6>Log in with</h6>
     <div class="row social-connect">
-      <div class="col-6">
-        <a
-          href="https://www.facebook.com/"
-          class="btn btn-social btn-flat facebook p-0"
-          target="_blank"
+      <div class="col-12">
+        <button
+          type="button"
+          (click)="loginWithGoogle()"
+          class="btn btn-social btn-flat google p-0 w-100"
+          [disabled]="isLoading"
         >
-          <i class="fab fa-facebook-f"></i>
-          <span>Facebook</span>
-        </a>
-      </div>
-      <div class="col-6">
-        <a
-          href="https://twitter.com/"
-          class="btn btn-social btn-flat twitter p-0"
-          target="_blank"
-        >
-          <i class="fab fa-twitter"></i>
-          <span>Twitter</span>
-        </a>
-      </div>
-      <div class="col-6">
-        <a
-          href="https://account.google.com"
-          class="btn btn-social btn-flat google p-0"
-          target="_blank"
-        >
-          <i class="fab fa-google"></i>
+          @if (isLoading) {
+            <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+          } @else {
+            <i class="fab fa-google"></i>
+          }
           <span>Google</span>
-        </a>
+        </button>
       </div>
-      <div class="col-6">
-        <a
-          href="https://www.linkedin.com/"
-          class="btn btn-social btn-flat linkedin p-0"
-          target="_blank"
-        >
-          <i class="fab fa-linkedin-in"></i>
-          <span>Linkedin</span>
-        </a>
-      </div>
+    </div>
+    <div class="text-center mt-3">
+      <small class="text-muted">
+        Outros métodos de autenticação em breve (Facebook, Twitter, LinkedIn)
+      </small>
     </div>
   </div>
 </form>

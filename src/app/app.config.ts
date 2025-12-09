@@ -3,6 +3,12 @@ import { ApplicationConfig, importProvidersFrom } from "@angular/core";
 import { provideAnimations } from "@angular/platform-browser/animations";
 import { provideRouter } from "@angular/router";
 
+import { initializeApp, provideFirebaseApp } from "@angular/fire/app";
+import { getAuth, provideAuth } from "@angular/fire/auth";
+import { getDatabase, provideDatabase } from "@angular/fire/database";
+import { getFirestore, provideFirestore } from "@angular/fire/firestore";
+import { getStorage, provideStorage } from "@angular/fire/storage";
+import { getAnalytics, provideAnalytics } from "@angular/fire/analytics";
 import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 import { withNgxsStoragePlugin } from "@ngxs/storage-plugin";
@@ -10,6 +16,7 @@ import { provideStore } from "@ngxs/store";
 import { provideAngularSvgIcon } from "angular-svg-icon";
 import { provideToastr } from "ngx-toastr";
 
+import { environment } from "../environments/environment";
 import { routes } from "./app.routes";
 import { CategoryState } from "./shared/store/states/category.state";
 import { CompareState } from "./shared/store/states/compare.state";
@@ -28,6 +35,14 @@ export const appConfig: ApplicationConfig = {
     provideAnimations(),
     provideAngularSvgIcon(),
     provideToastr(),
+    // Firebase providers
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideAuth(() => getAuth()),
+    provideDatabase(() => getDatabase()),
+    provideFirestore(() => getFirestore()),
+    provideStorage(() => getStorage()),
+    provideAnalytics(() => getAnalytics()),
+    // NGXS State Management
     provideStore(
       [WishlistState, CategoryState, CompareState, ImageState, PropertyState],
       withNgxsStoragePlugin({

@@ -1,0 +1,6 @@
+# Arquivos de logs
+*.log
+
+# Pastas de dependências
+node_modules/
+vendor/

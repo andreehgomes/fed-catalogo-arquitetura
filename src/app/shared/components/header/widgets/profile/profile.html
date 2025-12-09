@@ -1,3 +1,76 @@
-<a href="javascript:void(0)" (click)="openModal()">
-  <app-feather-icons [icon]="'user'" />
-</a>
+<!-- Not Authenticated - Show Login Button -->
+@if (!isAuthenticated) {
+  <a href="javascript:void(0)" (click)="goToLogin()" class="login-btn">
+    <app-feather-icons [icon]="'user'" />
+  </a>
+}
+
+<!-- Authenticated - Show User Profile Dropdown -->
+@if (isAuthenticated) {
+  <!-- Debug: Uncomment to see values -->
+  <!-- <div style="position: fixed; top: 60px; right: 10px; background: #000; color: #fff; padding: 10px; z-index: 9999; font-size: 10px;">
+    <div>photoURL: {{ userPhotoURL || 'EMPTY' }}</div>
+    <div>initials: {{ userInitials }}</div>
+    <div>name: {{ userDisplayName }}</div>
+  </div> -->
+
+  <div ngbDropdown class="user-profile-dropdown" placement="bottom-end">
+    <button
+      type="button"
+      class="btn btn-link p-0 user-profile-btn"
+      ngbDropdownToggle
+    >
+      <div class="user-avatar">
+        @if (userPhotoURL) {
+          <img [src]="userPhotoURL" [alt]="userDisplayName" class="avatar-img" />
+        } @else {
+          <div class="avatar-initials">{{ userInitials }}</div>
+        }
+      </div>
+    </button>
+
+    <div ngbDropdownMenu class="dropdown-menu-end user-dropdown-menu">
+      <!-- User Info Header -->
+      <div class="dropdown-header user-info">
+        <div class="d-flex align-items-center">
+          <div class="user-avatar-large me-3">
+            @if (userPhotoURL) {
+              <img [src]="userPhotoURL" [alt]="userDisplayName" class="avatar-img-large" />
+            } @else {
+              <div class="avatar-initials-large">{{ userInitials }}</div>
+            }
+          </div>
+          <div class="user-details">
+            <div class="user-name fw-bold">{{ userDisplayName }}</div>
+            <div class="user-email text-muted small">{{ userEmail }}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dropdown-divider"></div>
+
+      <!-- Menu Items -->
+      <button ngbDropdownItem (click)="goToDashboard()">
+        <app-feather-icons [icon]="'grid'" class="me-2" />
+        Dashboard
+      </button>
+
+      <button ngbDropdownItem (click)="goToProfile()">
+        <app-feather-icons [icon]="'user'" class="me-2" />
+        Meu Perfil
+      </button>
+
+      <button ngbDropdownItem (click)="goToWishlist()">
+        <app-feather-icons [icon]="'heart'" class="me-2" />
+        Favoritos
+      </button>
+
+      <div class="dropdown-divider"></div>
+
+      <button ngbDropdownItem (click)="logout()" class="text-danger">
+        <app-feather-icons [icon]="'log-out'" class="me-2" />
+        Sair
+      </button>
+    </div>
+  </div>
+}

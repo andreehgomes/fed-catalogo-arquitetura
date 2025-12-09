@@ -11,9 +11,7 @@ import {
   IPropertyOfDay,
 } from "../../../shared/interface/property";
 import { PropertyService } from "../../../shared/services/property.service";
-import { ClassicBanner } from "../../home/classic/classic-banner/classic-banner";
-import { ClassicVideo } from "../../home/classic/classic-video/classic-video";
-import { CorporatePricingPlan } from "../../home/corporate/corporate-pricing-plan/corporate-pricing-plan";
+import { EnterpriseBanner } from "../../home/enterprise/enterprise-banner/enterprise-banner";
 
 @Component({
   selector: "app-modules-others",
@@ -24,10 +22,8 @@ import { CorporatePricingPlan } from "../../home/corporate/corporate-pricing-pla
     Title,
     PropertyInCities,
     NewOffer,
-    ClassicVideo,
     PropertyOfDay,
-    CorporatePricingPlan,
-    ClassicBanner,
+    EnterpriseBanner,
     CommonModule,
   ],
 })
@@ -42,10 +38,10 @@ export class ModulesOthers {
   public child = "Others";
 
   public desc =
-    "Discover New York’s best things to do, restaurants, theatre, nightlife and more";
+    "Discover New York's best things to do, restaurants, theatre, nightlife and more";
 
-  public otherTitle1 = "image_content";
-  public otherTitle2 = "enterprise";
+  public otherTitle1 = "modern";
+  public otherTitle2 = "modern";
 
   public propertyInCity: IPropertyInCity[] = [];
   public propertyOfDay: IPropertyOfDay[] = [];

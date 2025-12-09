@@ -1,55 +1,119 @@
-import { Component, inject } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { Component, inject, OnInit, OnDestroy } from "@angular/core";
 import { Router } from "@angular/router";
 
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { NgbDropdownModule } from "@ng-bootstrap/ng-bootstrap";
+import { ToastrService } from "ngx-toastr";
+import { Subject, takeUntil } from "rxjs";
+import { User } from "@angular/fire/auth";
 
-import { LogInModal } from "../../../common/modal/log-in-modal/log-in-modal";
 import { FeatherIcons } from "../../../ui/feather-icons/feather-icons";
+import { FirebaseAuthService } from "../../../../services/firebase/firebase-auth.service";
 
 @Component({
   selector: "app-profile",
-  imports: [FeatherIcons],
+  imports: [FeatherIcons, NgbDropdownModule, CommonModule],
   templateUrl: "./profile.html",
   styleUrls: ["./profile.scss"],
 })
-export class Profile {
-  private modal = inject(NgbModal);
+export class Profile implements OnInit, OnDestroy {
+  private authService = inject(FirebaseAuthService);
   private router = inject(Router);
+  private toastr = inject(ToastrService);
+  private destroy$ = new Subject<void>();
 
-  public loginModal: boolean = false;
-  public buttonClass: string = "";
-  public tagClass: string = "";
-  public theme: number;
-  public imageURL: string;
+  public currentUser: User | null = null;
+  public isAuthenticated: boolean = false;
+  public userDisplayName: string = "";
+  public userEmail: string = "";
+  public userPhotoURL: string = "";
+  public userInitials: string = "";
 
-  constructor() {
-    if (window.location.pathname.includes("theme/corporate")) {
-      this.loginModal = true;
-      this.buttonClass = "btn-solid color-3";
-      this.tagClass = "color-3";
-      this.theme = 3;
-      this.imageURL = "assets/images/property/11.jpg";
-    } else if (window.location.pathname.includes("theme/corporate")) {
-      this.loginModal = true;
-      this.buttonClass = "btn-solid color-7";
-      this.tagClass = "color-7";
-      this.theme = 5;
-      this.imageURL = "assets/images/property/25.jpg";
-    }
+  ngOnInit() {
+    // Subscribe to auth state changes
+    this.authService.user$.pipe(takeUntil(this.destroy$)).subscribe((user) => {
+      this.currentUser = user;
+      this.isAuthenticated = !!user;
+
+      if (user) {
+        this.userDisplayName = user.displayName || user.email?.split("@")[0] || "Usuário";
+        this.userEmail = user.email || "";
+        this.userPhotoURL = user.photoURL || "";
+        this.userInitials = this.getInitials(this.userDisplayName);
+
+        // Debug logs
+        console.log("🔍 Profile Component - User Data:", {
+          displayName: user.displayName,
+          email: user.email,
+          photoURL: user.photoURL,
+          uid: user.uid,
+        });
+        console.log("📸 Photo URL being set:", this.userPhotoURL);
+      } else {
+        this.userDisplayName = "";
+        this.userEmail = "";
+        this.userPhotoURL = "";
+        this.userInitials = "";
+      }
+    });
   }
 
-  openModal() {
-    if (this.loginModal == true) {
-      const modalRef = this.modal.open(LogInModal, {
-        centered: true,
-        size: "lg",
-      });
-      modalRef.componentInstance.buttonClass = this.buttonClass;
-      modalRef.componentInstance.tagClass = this.tagClass;
-      modalRef.componentInstance.theme = this.theme;
-      modalRef.componentInstance.imageURL = this.imageURL;
-    } else {
-      void this.router.navigate(["/page/other-pages/log-in"]);
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  /**
+   * Get initials from name
+   */
+  private getInitials(name: string): string {
+    if (!name) return "U";
+    const parts = name.split(" ");
+    if (parts.length >= 2) {
+      return (parts[0][0] + parts[1][0]).toUpperCase();
+    }
+    return name.substring(0, 2).toUpperCase();
+  }
+
+  /**
+   * Navigate to login page
+   */
+  goToLogin() {
+    void this.router.navigate(["/page/other-pages/log-in"]);
+  }
+
+  /**
+   * Navigate to profile page
+   */
+  goToProfile() {
+    void this.router.navigate(["/page/user-panel/my-profile"]);
+  }
+
+  /**
+   * Navigate to user dashboard
+   */
+  goToDashboard() {
+    void this.router.navigate(["/page/user-panel/user-dashboard"]);
+  }
+
+  /**
+   * Navigate to user wishlist
+   */
+  goToWishlist() {
+    void this.router.navigate(["/page/user-panel/my-listing"]);
+  }
+
+  /**
+   * Logout user
+   */
+  async logout() {
+    try {
+      await this.authService.signOut();
+      this.toastr.success("Você saiu da sua conta.", "Logout realizado");
+      void this.router.navigate(["/"]);
+    } catch (error) {
+      console.error("Erro ao fazer logout:", error);
+      this.toastr.error("Erro ao sair da conta.", "Erro");
     }
   }
 }
