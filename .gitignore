@@ -4,3 +4,4 @@
 # Pastas de dependências
 node_modules/
 vendor/
+.claude/
