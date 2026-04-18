@@ -11,6 +11,7 @@ export interface UserData {
   email: string;
   phone: string;
   photoURL?: string;
+  role: string;
 
   // Address Info
   address?: string;
@@ -153,5 +154,65 @@ export class FirebaseDatabaseService {
       console.error("Error updating last login:", error);
       throw error;
     }
+  }
+
+  /**
+   * Get all users from database
+   * @returns Promise<Array<UserData & { uid: string }>>
+   */
+  async getAllUsers(): Promise<Array<UserData & { uid: string }>> {
+    try {
+      const usersRef = ref(this.database, 'users');
+      const snapshot = await get(usersRef);
+
+      if (snapshot.exists()) {
+        const usersData = snapshot.val();
+        // Convert object to array with uid
+        return Object.keys(usersData).map(uid => ({
+          uid,
+          ...usersData[uid]
+        }));
+      }
+      return [];
+    } catch (error) {
+      console.error("Error getting all users:", error);
+      return [];
+    }
+  }
+
+  /**
+   * Get all users as Observable (realtime updates)
+   * @returns Observable<Array<UserData & { uid: string }>>
+   */
+  getAllUsersRealtime(): Observable<Array<UserData & { uid: string }>> {
+    return new Observable((observer) => {
+      const usersRef = ref(this.database, 'users');
+
+      const unsubscribe = onValue(
+        usersRef,
+        (snapshot) => {
+          if (snapshot.exists()) {
+            const usersData = snapshot.val();
+            // Convert object to array with uid
+            const users = Object.keys(usersData).map(uid => ({
+              uid,
+              ...usersData[uid]
+            }));
+            observer.next(users);
+          } else {
+            observer.next([]);
+          }
+        },
+        (error) => {
+          console.error("Error getting users realtime:", error);
+          observer.error(error);
+        }
+      );
+
+      // Cleanup function
+      return () => {
+        off(usersRef);
+      };
+    });
   }
 }

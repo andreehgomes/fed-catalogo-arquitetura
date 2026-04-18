@@ -1,3 +1,10 @@
-/* You can add global styles to this file, and also import other style files */
+/* Global styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-@import "../public/assets/scss/app.scss";
+body {
+  font-family: sans-serif;
+}

@@ -1,9 +1,0 @@
-@if (type() === "simple") {
-  <app-property-slider [propertyData]="propertyData()" />
-} @else if (type() === "basic") {
-  <app-property-tab
-    [propertyData]="propertyData()"
-    [dataArray]="dataArray()"
-    [propertyDetailsData]="propertyDetailsData()"
-  />
-}
